@@ -1,44 +1,35 @@
-import { jest } from "@jest/globals"
+import { InMemoryAccountRepository } from "../../../../modules/accounts/repositories/inMemoryRepository/InMemoryAccountRepository.js"
 import { CreateAccountUseCase } from "../../../../modules/accounts/useCases/createAccount/CreateAccountUseCase.js"
-import { prismaMock } from "../../../../../singleton.js"
 
+let AccountRepository
 let createAccountUseCase
 
 describe("CreateAccountUseCase", () => {
   beforeAll(() => {
-    createAccountUseCase = new CreateAccountUseCase()
+    AccountRepository = new InMemoryAccountRepository()
+    createAccountUseCase = new CreateAccountUseCase(AccountRepository)
   })
 
   it("should be able to create a new account", async () => {
-    const userMock = {
-      id: "cjld2cjxh0000qzrmn831i7rn",
-      name: "John Doe",
-      email: "johndoe@gmai.com",
-      password: "123456",
-      createdAt: new Date(),
-      tasks: [],
-    }
-
-    const user = await createAccountUseCase.execute({
+    const account = await createAccountUseCase.execute({
       name: "John Doe",
       email: "johndoe@gmai.com",
       password: "123456",
     })
 
-    prismaMock.user.create.mockResolvedValue(userMock)
-    expect(user).toHaveProperty("id")
+    expect(account).toHaveProperty("id")
   })
 
   it("should not be able to create a new account with already registered", async () => {
-    const user = {
+    const account = {
       name: "John Doe",
       email: "johndoe@gmai.com",
       password: "123456",
     }
-    await createAccountUseCase.execute(user)
+    await createAccountUseCase.execute(account)
 
     expect(async () => {
-      await createAccountUseCase.execute(user)
+      await createAccountUseCase.execute(account)
     }).rejects.toTrow("Email already exists!")
   })
 })
