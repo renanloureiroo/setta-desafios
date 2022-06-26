@@ -16,7 +16,7 @@ class CreateAccountUseCase {
 
     const hashedPassword = await bcryptJs.hash(password, 8)
 
-    const account = this.accountsRepository.create({
+    const account = await this.accountsRepository.create({
       name,
       email,
       password: hashedPassword,

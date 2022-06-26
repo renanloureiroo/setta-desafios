@@ -7,16 +7,19 @@
   "scripts": {
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
-    "dev": "nodemon dotenv -e .env.development ./src/server.js",
-    "test": "yarn docker:up && dotenv -e .env.test yarn prisma migrate deploy && NODE_OPTIONS=--experimental-vm-modules jest"
+    "dev": "dotenv -e .env.development nodemon ./src/server.js",
+    "test:migrate": "dotenv -e .env.test yarn prisma migrate deploy",
+    "test": "yarn docker:up && yarn test:migrate && NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test jest --runInBand"
   },
   "dependencies": {
     "@prisma/client": "^3.15.2",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv-cli": "^5.1.0",
     "express": "^4.18.1",
     "global": "^4.4.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "eslint": "^7.32.0 || ^8.2.0",

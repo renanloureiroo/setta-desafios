@@ -13,7 +13,6 @@ class CreateAccountController {
         email,
         password,
       })
-
       return res.status(201).json(account)
     } catch (err) {
       return res.status(err.statusCode).json({

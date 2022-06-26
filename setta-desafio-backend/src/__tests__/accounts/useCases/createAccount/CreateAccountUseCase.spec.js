@@ -2,13 +2,13 @@ import { AppError } from "../../../../errors/AppError.js"
 import { InMemoryAccountRepository } from "../../../../modules/accounts/repositories/inMemoryRepository/InMemoryAccountRepository.js"
 import { CreateAccountUseCase } from "../../../../modules/accounts/useCases/createAccount/CreateAccountUseCase.js"
 
-let AccountRepository
+let accountRepository
 let createAccountUseCase
 
 describe("CreateAccountUseCase", () => {
-  beforeAll(() => {
-    AccountRepository = new InMemoryAccountRepository()
-    createAccountUseCase = new CreateAccountUseCase(AccountRepository)
+  beforeEach(() => {
+    accountRepository = new InMemoryAccountRepository()
+    createAccountUseCase = new CreateAccountUseCase(accountRepository)
   })
 
   it("should be able to create a new account", async () => {
@@ -22,15 +22,18 @@ describe("CreateAccountUseCase", () => {
   })
 
   it("should not be able to create a new account with already registered", async () => {
-    const account = {
+    await accountRepository.create({
       name: "John Doe",
       email: "johndoeTwo@gmail.com",
       password: "123456",
-    }
-    await createAccountUseCase.execute(account)
+    })
 
-    expect(async () => {
-      await createAccountUseCase.execute(account)
-    }).rejects.toEqual(new AppError("Email already register!"))
+    await expect(
+      createAccountUseCase.execute({
+        name: "John Doe",
+        email: "johndoeTwo@gmail.com",
+        password: "123456",
+      })
+    ).rejects.toEqual(new AppError("Email already register!"))
   })
 })
