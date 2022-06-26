@@ -1,5 +1,5 @@
-import { hash } from "bcryptjs"
-import { AppError } from "../../../../errors/AppError"
+import bcryptJs from "bcryptjs"
+import { AppError } from "../../../../errors/AppError.js"
 
 class CreateAccountUseCase {
   accountsRepository
@@ -14,7 +14,7 @@ class CreateAccountUseCase {
       throw new AppError("Email already register!")
     }
 
-    const hashedPassword = await hash(password, 8)
+    const hashedPassword = await bcryptJs.hash(password, 8)
 
     const account = this.accountsRepository.create({
       name,

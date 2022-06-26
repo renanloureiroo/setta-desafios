@@ -1,8 +1,11 @@
+import { AccountRepository } from "../../repositories/AccountRepository.js"
 import { CreateAccountUseCase } from "./CreateAccountUseCase.js"
 import { CreateAccountController } from "./CreateAccountController.js"
 
-const useCase = new CreateAccountUseCase()
+const accountRepository = new AccountRepository()
+const createAccountUseCase = new CreateAccountUseCase(accountRepository)
+const createAccountController = new CreateAccountController(
+  createAccountUseCase
+)
 
-const controller = new CreateAccountController(useCase)
-
-export { controller }
+export { createAccountController }

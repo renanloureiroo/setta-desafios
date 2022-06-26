@@ -1,4 +1,4 @@
-import { prisma } from "../../../database/prisma/prisma"
+import { prisma } from "../../../database/prisma/prisma.js"
 
 class AccountRepository {
   async create({ name, email, password }) {

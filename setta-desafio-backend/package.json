@@ -1,16 +1,21 @@
 {
   "name": "setta-desafio-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/server.js",
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon ./src/server.js",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "dev": "nodemon dotenv -e .env.development ./src/server.js",
+    "test": "yarn docker:up && dotenv -e .env.test yarn prisma migrate deploy && NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
-    "@prisma/client": "3.15.2",
+    "@prisma/client": "^3.15.2",
+    "bcryptjs": "^2.4.3",
+    "dotenv-cli": "^5.1.0",
     "express": "^4.18.1",
+    "global": "^4.4.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
