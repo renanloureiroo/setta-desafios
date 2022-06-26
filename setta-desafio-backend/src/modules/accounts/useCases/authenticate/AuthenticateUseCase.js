@@ -28,7 +28,7 @@ class AuthenticateUseCase {
         name: accountExists.name,
         email: accountExists.email,
       },
-      "ce362aa0f973e6e22f42e005dda251bd",
+      process.env.JWT_SECRET_KEY,
       {
         subject: accountExists.id,
       }

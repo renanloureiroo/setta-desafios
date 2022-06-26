@@ -8,7 +8,7 @@ let accountsRepository
 let createAccountUseCase
 
 describe("/api/v1/accounts POST ENDPOINT", () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     accountsRepository = new AccountRepository()
     createAccountUseCase = new CreateAccountUseCase(accountsRepository)
 
@@ -19,7 +19,7 @@ describe("/api/v1/accounts POST ENDPOINT", () => {
     })
   })
 
-  afterAll(async () => {
+  afterEach(async () => {
     const deleteUser = prisma.user.deleteMany()
     await prisma.$transaction([deleteUser])
     await prisma.$disconnect()
