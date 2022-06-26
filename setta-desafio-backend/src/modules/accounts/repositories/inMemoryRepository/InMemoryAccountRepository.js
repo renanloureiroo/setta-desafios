@@ -12,7 +12,7 @@ class InMemoryAccountRepository {
     }
     this.accounts.push(account)
 
-    return user
+    return account
   }
 
   async findByEmail(email) {
