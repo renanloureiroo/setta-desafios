@@ -30,6 +30,6 @@ describe("CreateAccountUseCase", () => {
 
     expect(async () => {
       await createAccountUseCase.execute(account)
-    }).rejects.toTrow("Email already exists!")
+    }).rejects.toTrow("Email already register!")
   })
 })
