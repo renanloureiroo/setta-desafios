@@ -3,6 +3,9 @@ import { WrapperGradient } from "../components/WrapperGradient";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useAuth } from "../contexts/AuthContext";
+
+import { useNavigate } from "react-router-dom";
 
 const schema = yup.object().shape({
   name: yup.string().required("Nome é obrigatório!"),
@@ -23,13 +26,23 @@ export const SignUp = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const navigate = useNavigate();
+  const { signUp } = useAuth();
 
-  const handleCreateUser = async (values) => {
-    console.log(values);
+  const handleCreateUser = async ({ name, email, password }) => {
+    try {
+      await signUp({ name, email, password });
+      navigate("/signin");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      reset();
+    }
   };
 
   return (

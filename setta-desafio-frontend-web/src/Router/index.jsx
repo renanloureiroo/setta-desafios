@@ -3,11 +3,11 @@ import { SignIn } from "../pages/SignIn";
 import { SignUp } from "../pages/SignUp";
 import { Home } from "../pages/Home";
 
-export const RouterApp = () => {
+export const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="singin" element={<SignIn />} />
-      <Route path="singup" element={<SignUp />} />
+      <Route index path="signin" element={<SignIn />} />
+      <Route path="signup" element={<SignUp />} />
       <Route path="timer" element={<Home />} />
     </Routes>
   );

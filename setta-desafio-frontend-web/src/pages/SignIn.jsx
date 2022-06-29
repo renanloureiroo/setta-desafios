@@ -3,6 +3,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Input } from "../components/Input";
 import { WrapperGradient } from "../components/WrapperGradient";
+import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const schema = yup.object().shape({
   email: yup
@@ -24,16 +26,14 @@ export const SignIn = () => {
     resolver: yupResolver(schema),
   });
 
-  const handleSignIn = async (values) => {
-    console.log(values);
-  };
+  const { singIn } = useAuth();
 
   return (
     <WrapperGradient>
       <div className="flex w-full h-full items-center justify-center px-6">
         <div className="bg-white min-w-[300px] rounded-2xl p-8 text-gray-900">
           <form
-            onSubmit={handleSubmit(handleSignIn)}
+            onSubmit={handleSubmit(singIn)}
             className="flex w-full flex-col gap-4 items-center"
           >
             <Input
@@ -61,9 +61,9 @@ export const SignIn = () => {
 
           <p className="text-gray-900 text-opacity-80 mt-6">
             Cadastre-se{" "}
-            <a href="#" className="text-brand-blue">
+            <Link to={"/signup"} className="text-brand-blue">
               aqui
-            </a>
+            </Link>
             !
           </p>
         </div>
