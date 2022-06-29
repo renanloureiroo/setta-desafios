@@ -3,7 +3,9 @@ import { createAccountController } from "../modules/accounts/useCases/createAcco
 import { authenticateController } from "../modules/accounts/useCases/authenticate/index.js"
 const accountsRouter = Router()
 
-accountsRouter.post("/", (req, res) => createAccountController.handle(req, res))
+accountsRouter.post("/signup", (req, res) =>
+  createAccountController.handle(req, res)
+)
 
 accountsRouter.post("/signin", (req, res) =>
   authenticateController.handle(req, res)
