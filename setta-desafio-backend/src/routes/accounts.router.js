@@ -1,6 +1,7 @@
 import { Router } from "express"
 import { createAccountController } from "../modules/accounts/useCases/createAccount/index.js"
 import { authenticateController } from "../modules/accounts/useCases/authenticate/index.js"
+
 const accountsRouter = Router()
 
 accountsRouter.post("/signup", (req, res) =>

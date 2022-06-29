@@ -20,7 +20,7 @@ class AuthenticateUseCase {
       accountExists.password
     )
     if (!matchPassword) {
-      throw new AppError("Invalid credentials!")
+      throw new AppError("Invalid credentials!", 401)
     }
 
     const accessToken = jwt.sign(
@@ -31,6 +31,7 @@ class AuthenticateUseCase {
       process.env.JWT_SECRET_KEY,
       {
         subject: accountExists.id,
+        expiresIn: "7d",
       }
     )
 

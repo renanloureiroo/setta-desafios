@@ -24,6 +24,29 @@ class TasksRepository {
 
     return task
   }
+
+  async findById(id) {
+    console.log(id)
+    return await prisma.task.findFirst({
+      where: {
+        id,
+      },
+      include: {
+        BlocksTime: true,
+      },
+    })
+  }
+
+  async findAllByUserId(userId) {
+    return await prisma.task.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        BlocksTime: true,
+      },
+    })
+  }
 }
 
 export { TasksRepository }

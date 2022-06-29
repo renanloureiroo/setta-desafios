@@ -18,6 +18,14 @@ class AccountRepository {
       },
     })
   }
+
+  async findById(id) {
+    return prisma.user.findFirst({
+      where: {
+        id,
+      },
+    })
+  }
 }
 
 export { AccountRepository }
