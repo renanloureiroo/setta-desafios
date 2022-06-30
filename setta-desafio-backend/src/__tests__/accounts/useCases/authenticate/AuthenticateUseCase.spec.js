@@ -36,13 +36,13 @@ describe("AuthenticateUseCase", () => {
         email: "incorrectEmail@gmail.com",
         password: "123456",
       })
-    ).rejects.toEqual(new AppError("Invalid credentials!"))
+    ).rejects.toEqual(new AppError("Invalid credentials!", 400))
 
     await expect(
       authenticateUseCase.execute({
         email: account.email,
         password: "incorrectPassword",
       })
-    ).rejects.toEqual(new AppError("Invalid credentials!"))
+    ).rejects.toEqual(new AppError("Invalid credentials!", 401))
   })
 })

@@ -2,30 +2,33 @@ import bcryptJs from "bcryptjs"
 import request from "supertest"
 
 import { prisma } from "../../../../database/prisma/prisma.js"
+
 import { AccountRepository } from "../../../../modules/accounts/repositories/AccountRepository.js"
+import { CreateAccountUseCase } from "../../../../modules/accounts/useCases/createAccount/CreateAccountUseCase.js"
 import { app } from "../../../../app.js"
 
 let accountsRepository
+let createAccountUseCase
 
 describe("/api/v1/accounts/signin", () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     accountsRepository = new AccountRepository()
-    const hashedPassword = await bcryptJs.hash("123456", 8)
-
-    await accountsRepository.create({
-      name: "John Doe",
-      email: "johndoe@gmail.com",
-      password: hashedPassword,
-    })
+    createAccountUseCase = new CreateAccountUseCase(accountsRepository)
   })
 
   afterEach(async () => {
-    const deleteAccounts = prisma.user.deleteMany()
-    await prisma.$transaction([deleteAccounts])
+    await prisma.user.deleteMany()
+
     await prisma.$disconnect()
   })
 
   it("should be able to authenticate account", async () => {
+    await createAccountUseCase.execute({
+      name: "John Doe",
+      email: "johndoe@gmail.com",
+      password: "123456",
+    })
+
     await request(app)
       .post("/api/v1/accounts/signin")
       .send({
@@ -39,6 +42,12 @@ describe("/api/v1/accounts/signin", () => {
   })
 
   it("should not be able to authenticate account with invalid credentials", async () => {
+    await createAccountUseCase.execute({
+      name: "John Doe",
+      email: "johndoe@gmail.com",
+      password: "123456",
+    })
+
     await request(app)
       .post("/api/v1/accounts/signin")
       .send({
@@ -56,7 +65,7 @@ describe("/api/v1/accounts/signin", () => {
         email: "johndoe@gmail.com",
         password: "000000",
       })
-      .expect(400)
+      .expect(401)
       .expect((response) => {
         expect(response.body).toHaveProperty("error", "Invalid credentials!")
       })

@@ -1,14 +1,21 @@
 import { AppError } from "../../../../errors/AppError.js"
-import { InMemoryAccountRepository } from "../../../../modules/accounts/repositories/inMemoryRepository/InMemoryAccountRepository.js"
+import { AccountRepository } from "../../../../modules/accounts/repositories/AccountRepository"
 import { CreateAccountUseCase } from "../../../../modules/accounts/useCases/createAccount/CreateAccountUseCase.js"
+import { prisma } from "../../../../database/prisma/prisma.js"
 
 let accountRepository
 let createAccountUseCase
 
 describe("CreateAccountUseCase", () => {
   beforeEach(() => {
-    accountRepository = new InMemoryAccountRepository()
+    accountRepository = new AccountRepository()
     createAccountUseCase = new CreateAccountUseCase(accountRepository)
+  })
+
+  afterEach(async () => {
+    const deleteAccounts = prisma.user.deleteMany()
+    await prisma.$transaction([deleteAccounts])
+    await prisma.$disconnect()
   })
 
   it("should be able to create a new account", async () => {
@@ -24,14 +31,14 @@ describe("CreateAccountUseCase", () => {
   it("should not be able to create a new account with already registered", async () => {
     await accountRepository.create({
       name: "John Doe",
-      email: "johndoeTwo@gmail.com",
+      email: "johndoe@gmail.com",
       password: "123456",
     })
 
     await expect(
       createAccountUseCase.execute({
         name: "John Doe",
-        email: "johndoeTwo@gmail.com",
+        email: "johndoe@gmail.com",
         password: "123456",
       })
     ).rejects.toEqual(new AppError("Email already register!"))

@@ -8,26 +8,20 @@ let accountsRepository
 let createAccountUseCase
 
 describe("/api/v1/accounts POST ENDPOINT", () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     accountsRepository = new AccountRepository()
     createAccountUseCase = new CreateAccountUseCase(accountsRepository)
-
-    await createAccountUseCase.execute({
-      name: "John Doe",
-      email: "john@gmail.com",
-      password: "123456",
-    })
   })
 
   afterEach(async () => {
-    const deleteUser = prisma.user.deleteMany()
-    await prisma.$transaction([deleteUser])
+    await prisma.user.deleteMany()
+
     await prisma.$disconnect()
   })
 
   it("should create a new account", async () => {
     await request(app)
-      .post("/api/v1/accounts")
+      .post("/api/v1/accounts/signup")
       .send({
         name: "John Doe",
         email: "johndoe@gmail.com",
@@ -40,8 +34,14 @@ describe("/api/v1/accounts POST ENDPOINT", () => {
   })
 
   it("should not create a new account with email already registered", async () => {
+    await createAccountUseCase.execute({
+      name: "John Doe",
+      email: "john@gmail.com",
+      password: "123456",
+    })
+
     await request(app)
-      .post("/api/v1/accounts")
+      .post("/api/v1/accounts/signup")
       .send({
         name: "John Doe",
         email: "john@gmail.com",
