@@ -1,11 +1,17 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { api } from "../services/api";
 
 const AuthContext = createContext({});
 
 const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const signIn = useCallback(async ({ email, password }) => {
     try {
@@ -14,9 +20,19 @@ const AuthContextProvider = ({ children }) => {
         password,
       });
 
-      setUser(data);
+      api.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${data.accessToken}`;
+
+      localStorage.setItem("settaAccessToken", data.accessToken);
+      localStorage.setItem("settaUser", JSON.stringify(data.account));
+      setUser(data.account);
     } catch (err) {
-      console.log(err);
+      if (err.response.status === 401) {
+        throw new Error("Usuário ou senha inválidos");
+      } else {
+        console.log(err);
+      }
     }
   }, []);
 
@@ -28,12 +44,36 @@ const AuthContextProvider = ({ children }) => {
         password,
       });
     } catch (err) {
-      console.log(err);
+      if (err.response.status === 400) {
+        throw new Error("Houve um erro ao criar sua conta!");
+      } else {
+        console.log(err);
+      }
     }
   }, []);
 
+  const rehydrated = () => {
+    const accessToken = localStorage.getItem("settaAccessToken");
+    const user = JSON.parse(localStorage.getItem("settaUser"));
+    if (!!accessToken && !!user.id) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      setUser(user);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoading) {
+      rehydrated();
+      setIsLoading(false);
+    }
+  }, []);
+
+  if (isLoading) {
+    return null;
+  }
+
   return (
-    <AuthContext.Provider value={{ user, signIn, signUp }}>
+    <AuthContext.Provider value={{ user, signIn, signUp, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

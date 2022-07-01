@@ -1,5 +1,4 @@
 import { Input } from "../components/Input";
-import { WrapperGradient } from "../components/WrapperGradient";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -46,51 +45,49 @@ export const SignUp = () => {
   };
 
   return (
-    <WrapperGradient>
-      <div className="flex w-full h-full items-center justify-center px-6">
-        <div className="bg-white min-w-[300px] rounded-2xl p-8 text-gray-900">
-          <form
-            onSubmit={handleSubmit(handleCreateUser)}
-            className="flex w-full flex-col gap-4 items-center"
-          >
-            <Input
-              type="text"
-              placeholder={"Nome"}
-              name="name"
-              error={errors.name}
-              {...register("name")}
-            />
-            <Input
-              type="email"
-              placeholder={"E-mail"}
-              name="email"
-              error={errors.email}
-              {...register("email")}
-            />
-            <Input
-              type="password"
-              placeholder={"Senha"}
-              name="password"
-              error={errors.password}
-              {...register("password")}
-            />
-            <Input
-              type="password"
-              placeholder={"Confirmar senha"}
-              name="password_confirmation"
-              error={errors.password_confirmation}
-              {...register("password_confirmation")}
-            />
+    <div className="flex w-full h-full items-center justify-center px-6">
+      <div className="bg-white min-w-[300px] rounded-2xl p-8 text-gray-900">
+        <form
+          onSubmit={handleSubmit(handleCreateUser)}
+          className="flex w-full flex-col gap-4 items-center"
+        >
+          <Input
+            type="text"
+            placeholder={"Nome"}
+            name="name"
+            error={errors.name}
+            {...register("name")}
+          />
+          <Input
+            type="email"
+            placeholder={"E-mail"}
+            name="email"
+            error={errors.email}
+            {...register("email")}
+          />
+          <Input
+            type="password"
+            placeholder={"Senha"}
+            name="password"
+            error={errors.password}
+            {...register("password")}
+          />
+          <Input
+            type="password"
+            placeholder={"Confirmar senha"}
+            name="password_confirmation"
+            error={errors.password_confirmation}
+            {...register("password_confirmation")}
+          />
 
-            <button
-              type="submit"
-              className="mt-2 h-14 rounded bg-brand-blue w-full text-white text-lg font-bold hover:brightness-90 transition-all"
-            >
-              Entrar
-            </button>
-          </form>
-        </div>
+          <button
+            type="submit"
+            className="mt-2 h-14 rounded bg-brand-blue w-full text-white text-lg font-bold hover:brightness-90 transition-all"
+          >
+            Entrar
+          </button>
+        </form>
       </div>
-    </WrapperGradient>
+    </div>
   );
 };
