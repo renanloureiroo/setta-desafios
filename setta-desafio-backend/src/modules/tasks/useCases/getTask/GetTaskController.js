@@ -5,7 +5,7 @@ class GetTaskController {
   }
 
   async handle(req, res) {
-    const { id } = req.query
+    const { id } = req.params
 
     try {
       const task = await this.getTaskUseCase.execute(id)

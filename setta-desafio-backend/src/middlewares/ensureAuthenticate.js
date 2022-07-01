@@ -2,13 +2,12 @@ import jtw from "jsonwebtoken"
 import { AccountRepository } from "../modules/accounts/repositories/AccountRepository.js"
 
 async function ensureAuthenticate(req, res, next) {
-  const token = req.headers.authorization
-
-  const [, accessToken] = token.split(" ")
-
-  if (!accessToken) {
+  const { authorization } = req.headers
+  console.log(authorization)
+  if (!authorization) {
     return res.status(401).json({ error: "Token missing!" })
   }
+  const [, accessToken] = authorization.split(" ")
   try {
     const { sub: userId } = jtw.verify(accessToken, process.env.JWT_SECRET_KEY)
 
@@ -24,7 +23,6 @@ async function ensureAuthenticate(req, res, next) {
     }
     next()
   } catch (err) {
-    console.log(err)
     return res.status(401).json({ error: "Invalid token!" })
   }
 }
