@@ -12,20 +12,29 @@ export const Report = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
-    const { data } = await api.get(`/tasks/${id}`);
-    setTask({
-      ...data,
-      focusedTime: formatTime(data.focusedTime),
-      pausedTime: formatTime(data.pausedTime),
+    try {
+      const { data } = await api.get(`/tasks/${id}`);
+      setTask({
+        ...data,
+        focusedTime: formatTime(data.focusedTime),
+        pausedTime: formatTime(data.pausedTime),
 
-      timeBlocks: data.timeBlocks.map((block) => {
-        return {
-          ...block,
-          time: formatTime(block.time),
-        };
-      }),
-    });
-    setIsLoading(false);
+        timeBlocks: data.timeBlocks.map((block) => {
+          return {
+            ...block,
+            time: formatTime(block.time),
+          };
+        }),
+      });
+      setIsLoading(false);
+    } catch (err) {
+      toast("Erro ao carregar dados!", {
+        autoClose: 3000,
+        type: "error",
+        theme: "colored",
+        position: "top-center",
+      });
+    }
   };
 
   useEffect(() => {

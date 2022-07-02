@@ -3,8 +3,10 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/AuthContext";
+import { RefreshIcon } from "@heroicons/react/outline";
 
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const schema = yup.object().shape({
   name: yup.string().required("Nome é obrigatório!"),
@@ -38,14 +40,19 @@ export const SignUp = () => {
       await signUp({ name, email, password });
       navigate("/signin");
     } catch (err) {
-      console.log(err);
+      toast(err.message, {
+        autoClose: 3000,
+        type: "error",
+        theme: "colored",
+        position: "top-center",
+      });
     } finally {
       reset();
     }
   };
 
   return (
-    <div className="flex w-full h-full items-center justify-center px-6">
+    <div className="flex w-full h-screen items-center justify-center px-6">
       <div className="bg-white min-w-[300px] rounded-2xl p-8 text-gray-900">
         <form
           onSubmit={handleSubmit(handleCreateUser)}
@@ -82,9 +89,14 @@ export const SignUp = () => {
 
           <button
             type="submit"
-            className="mt-2 h-14 rounded bg-brand-blue w-full text-white text-lg font-bold hover:brightness-90 transition-all"
+            className="flex items-center justify-center mt-2 h-14 rounded bg-brand-blue w-full text-white text-lg font-bold hover:brightness-90 transition-all"
+            disabled={isSubmitting}
           >
-            Entrar
+            {isSubmitting ? (
+              <RefreshIcon className="h-7 w-7 animate-spin" />
+            ) : (
+              "Cadastrar"
+            )}
           </button>
         </form>
       </div>

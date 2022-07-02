@@ -62,9 +62,21 @@ export const Timer = () => {
         blocks: timeBlocks,
       });
 
+      toast("Tarefa salva!", {
+        autoClose: 3000,
+        type: "success",
+        theme: "colored",
+        position: "top-center",
+      });
+
       navigate(`/task/${data.id}`);
     } catch (err) {
-      console.log(err);
+      toast("Erro ao salvar os dados da execução da tarefa!", {
+        autoClose: 3000,
+        type: "error",
+        theme: "colored",
+        position: "top-center",
+      });
     }
   };
 

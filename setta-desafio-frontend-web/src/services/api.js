@@ -8,13 +8,20 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    const originalRequest = error.config;
-
     if (error.response.status === 401) {
       localStorage.removeItem("settaAccessToken");
       localStorage.removeItem("settaUser");
       history.replaceState(null, null, "/signin");
     }
+
+    if (error.response.status === 400) {
+      return Promise.reject({
+        message: error.response.data.error,
+        code: error.response.status,
+      });
+    }
+
+    return Promise.reject(error);
   }
 );
 

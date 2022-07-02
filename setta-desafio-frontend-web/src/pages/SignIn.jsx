@@ -5,6 +5,8 @@ import { Input } from "../components/Input";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { RefreshIcon } from "@heroicons/react/outline";
+import { toast } from "react-toastify";
 
 const schema = yup.object().shape({
   email: yup
@@ -32,12 +34,19 @@ export const SignIn = () => {
     try {
       await signIn({ email, password });
       navigate("/");
-    } catch (err) {}
+    } catch (err) {
+      toast(err.message, {
+        autoClose: 3000,
+        type: "error",
+        theme: "colored",
+        position: "top-center",
+      });
+    }
   };
 
   return (
-    <div className="flex w-full h-full items-center justify-center px-6">
-      <div className="bg-white min-w-[300px] rounded-2xl p-8 text-gray-900">
+    <div className="flex  h-screen w-full items-center justify-center  px-6">
+      <div className="bg-white min-w-[300px]  rounded-2xl p-8 text-gray-900">
         <form
           onSubmit={handleSubmit(handleSignIn)}
           className="flex w-full flex-col gap-4 items-center"
@@ -58,10 +67,15 @@ export const SignIn = () => {
           />
 
           <button
+            disabled={isSubmitting}
             type="submit"
             className="mt-2 h-14 rounded bg-brand-blue w-full text-white text-lg font-bold hover:brightness-90 transition-all"
           >
-            Entrar
+            {isSubmitting ? (
+              <RefreshIcon className="h-7 w-7 animate-spin" />
+            ) : (
+              "Entrar"
+            )}
           </button>
         </form>
 

@@ -28,10 +28,10 @@ const AuthContextProvider = ({ children }) => {
       localStorage.setItem("settaUser", JSON.stringify(data.account));
       setUser(data.account);
     } catch (err) {
-      if (err.response.status === 401) {
-        throw new Error("Usuário ou senha inválidos");
+      if (err.code === 400 || err.code === 401) {
+        throw new Error("E-mail ou senha inválidos!");
       } else {
-        console.log(err);
+        throw new Error("Houve um erro ao fazer login!");
       }
     }
   }, []);
@@ -44,10 +44,11 @@ const AuthContextProvider = ({ children }) => {
         password,
       });
     } catch (err) {
-      if (err.response.status === 400) {
-        throw new Error("Houve um erro ao criar sua conta!");
+      console.log(err);
+      if (err.code === 400 && err.message === "Email already register!") {
+        throw new Error("E-mail já cadastrado!");
       } else {
-        console.log(err);
+        throw new Error("Houve um erro ao criar sua conta!");
       }
     }
   }, []);
