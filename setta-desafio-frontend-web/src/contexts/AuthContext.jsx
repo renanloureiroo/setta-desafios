@@ -28,7 +28,7 @@ const AuthContextProvider = ({ children }) => {
       localStorage.setItem("settaUser", JSON.stringify(data.account));
       setUser(data.account);
     } catch (err) {
-      if (err.code === 400 || err.code === 401) {
+      if (err.code === 400) {
         throw new Error("E-mail ou senha inválidos!");
       } else {
         throw new Error("Houve um erro ao fazer login!");

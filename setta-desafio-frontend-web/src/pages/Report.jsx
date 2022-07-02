@@ -1,5 +1,6 @@
+import { XCircleIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { BlockTime } from "../components/BlockTime";
 import { TotalTime } from "../components/TotalTime";
 
@@ -46,10 +47,15 @@ export const Report = () => {
   }
   return (
     <div className="w-full min-h-screen max-w-screen-lg px-8 flex flex-col items-center gap-6 mx-auto">
-      <header className="flex flex-col items-center justify-start gap-5 mt-10">
+      <header className="flex w-full flex-col items-center justify-start gap-5 mt-10">
+        <div className="flex justify-start w-full">
+          <Link to={"/"}>
+            <XCircleIcon className="h-10 w-10 text-white" />
+          </Link>
+        </div>
         {!isLoading ? (
           <>
-            <h1 className="text-3xl font-bold">{task.name}</h1>
+            <h1 className="text-3xl lg:text-6xl font-bold">{task.name}</h1>
             <div className="flex items-center gap-8">
               <TotalTime title={"Foco total"} time={task.focusedTime} />
               <TotalTime title={"Pausa total"} time={task.pausedTime} />
@@ -66,7 +72,7 @@ export const Report = () => {
         )}
       </header>
 
-      <ul className="flex flex-col gap-4 w-full">
+      <ul className="flex flex-col gap-4 w-full max-w-xs">
         {!isLoading
           ? task.timeBlocks.map((block) => (
               <BlockTime key={block.id} type={block.type} time={block.time} />

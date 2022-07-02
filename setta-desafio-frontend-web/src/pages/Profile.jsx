@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { api } from "../services/api";
 import { formatTime } from "../utils/formatTime";
+import { toast } from "react-toastify";
 
 export const Profile = () => {
   const [metrics, setMetrics] = useState(null);
@@ -19,7 +20,7 @@ export const Profile = () => {
     try {
       const { data: list } = await api.get(`/tasks`);
       const { data: metricsData } = await api.get(`tasks/metrics`);
-
+      console.log(metricsData);
       const tasksFormatted = list.map((task) => {
         return {
           ...task,
@@ -62,15 +63,14 @@ export const Profile = () => {
   }, []);
 
   return (
-    <div className="w-full min-h-screen max-w-screen-lg px-8 pt-3 mx-auto">
-      <header className="h-20 flex flex-col space-y-2">
-        <div className=" flex items-center justify-between">
+    <div className="w-full min-h-screen max-w-screen-lg px-8 py-3 mx-auto">
+      <header className="h-20 flex flex-col lg:flex-row-reverse lg:items-center lg:justify-between space-y-2">
+        <div className="flex items-center justify-between py-2 lg:justify-end border-b border-gray-300 lg:border-none">
           <Link
             to="/timer"
             className="flex items-center hover:text-blue-100 transition-colors"
           >
-            Criar nova tarefa
-            <PlusCircleIcon className="h-7 w-7 ml-2" />
+            <PlusCircleIcon className="h-10 w-10 mr-10" />
           </Link>
 
           <button
@@ -89,7 +89,7 @@ export const Profile = () => {
       <main className="flex flex-col mt-10">
         {!isLoading && !!metrics ? (
           <>
-            <section className="bg-white rounded-lg p-4 text-gray-900 flex flex-col items-center">
+            <section className="bg-white rounded-lg p-4 text-gray-900 flex flex-col lg:flex-row items-center lg:justify-center">
               <Chart
                 options={{
                   labels: ["Foco", "Pausa"],
@@ -100,7 +100,7 @@ export const Profile = () => {
                 width={350}
               />
 
-              <div className="flex flex-col space-y-4 text-gray-600">
+              <div className="flex flex-col space-y-4 text-gray-600 lg:text-lg">
                 <span>
                   Média do primeiro bloco focado:{" "}
                   <strong className="font-mono text-gray-900">

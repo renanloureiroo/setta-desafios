@@ -1,6 +1,7 @@
 import { RefreshIcon, PlayIcon, PauseIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Button } from "../components/Button";
 
 import { api } from "../services/api";
