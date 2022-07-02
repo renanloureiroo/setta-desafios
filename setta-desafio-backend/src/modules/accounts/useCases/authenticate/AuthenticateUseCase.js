@@ -20,7 +20,7 @@ class AuthenticateUseCase {
       accountExists.password
     )
     if (!matchPassword) {
-      throw new AppError("Invalid credentials!", 401)
+      throw new AppError("Invalid credentials!")
     }
 
     const accessToken = jwt.sign(
