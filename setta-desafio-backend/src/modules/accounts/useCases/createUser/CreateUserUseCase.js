@@ -2,21 +2,19 @@ import bcryptJs from "bcryptjs"
 import { AppError } from "../../../../errors/AppError.js"
 
 class CreateAccountUseCase {
-  accountsRepository
-  constructor(accountsRepository) {
-    this.accountsRepository = accountsRepository
+  usersRepository
+  constructor(usersRepository) {
+    this.usersRepository = usersRepository
   }
   async execute({ name, email, password }) {
-    const accountAlreadyExists = await this.accountsRepository.findByEmail(
-      email
-    )
+    const accountAlreadyExists = await this.usersRepository.findByEmail(email)
     if (accountAlreadyExists) {
       throw new AppError("Email already register!")
     }
 
     const hashedPassword = await bcryptJs.hash(password, 8)
 
-    const account = await this.accountsRepository.create({
+    const account = await this.usersRepository.create({
       name,
       email,
       password: hashedPassword,

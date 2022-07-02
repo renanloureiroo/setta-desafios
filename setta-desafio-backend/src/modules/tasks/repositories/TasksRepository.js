@@ -2,7 +2,6 @@ import { prisma } from "../../../database/prisma/prisma.js"
 
 class TasksRepository {
   async create({ name, focusedTime, pausedTime, blocks, userId }) {
-    console.table({ name, focusedTime, pausedTime, blocks, userId })
     const task = await prisma.task.create({
       data: {
         name,
@@ -12,7 +11,7 @@ class TasksRepository {
       },
     })
 
-    await prisma.blocksTime.createMany({
+    await prisma.timeBlock.createMany({
       data: blocks.map((block) => {
         return {
           type: block.type,
@@ -26,13 +25,12 @@ class TasksRepository {
   }
 
   async findById(id) {
-    console.log(id)
     return await prisma.task.findFirst({
       where: {
         id,
       },
       include: {
-        BlocksTime: true,
+        timeBlocks: true,
       },
     })
   }
@@ -43,7 +41,7 @@ class TasksRepository {
         userId,
       },
       include: {
-        BlocksTime: true,
+        timeBlocks: true,
       },
     })
   }

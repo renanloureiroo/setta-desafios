@@ -9,30 +9,34 @@ class GetMetricsUseCase {
 
     const totalTasks = tasks.length
 
-    const averageFocusedTime =
+    const averageFocusedTime = (
       tasks
         .map((task) => {
           const totalTime = task.focusedTime + task.pausedTime
           return (task.focusedTime * 100) / totalTime
         })
         .reduce((acc, curr) => acc + curr, 0) / totalTasks
+    ).toFixed(2)
 
-    const averagePausedTime = 100 - averageFocusedTime
+    const averagePausedTime = (100 - Number(averageFocusedTime)).toFixed(2)
 
-    const averageFirstFocusTimeBlock =
+    const averageFirstFocusTimeBlock = (
       tasks
         .map((task) => {
-          return task.BlocksTime[0].time
+          return task.timeBlocks[0].time
         })
         .reduce((acc, curr) => acc + curr, 0) / totalTasks
+    ).toFixed(2)
 
     const biggestFocusTimeBlock = tasks
       .flatMap((task) => {
-        const times = task.BlocksTime.filter((block) => {
-          if (block.type === "focus") {
-            return block
-          }
-        }).map((block) => block.time)
+        const times = task.timeBlocks
+          .filter((block) => {
+            if (block.type === "focus") {
+              return block
+            }
+          })
+          .map((block) => block.time)
 
         return times
       })
@@ -44,9 +48,9 @@ class GetMetricsUseCase {
       }, 0)
 
     return {
-      averageFocusedTime,
-      averagePausedTime,
-      averageFirstFocusTimeBlock,
+      averageFocusedTime: Number(averageFocusedTime),
+      averagePausedTime: Number(averagePausedTime),
+      averageFirstFocusTimeBlock: Math.round(averageFirstFocusTimeBlock),
       biggestFocusTimeBlock,
     }
   }

@@ -1,6 +1,6 @@
 import { prisma } from "../../../database/prisma/prisma.js"
 
-class AccountRepository {
+class UsersRepository {
   async create({ name, email, password }) {
     return await prisma.user.create({
       data: {
@@ -28,4 +28,4 @@ class AccountRepository {
   }
 }
 
-export { AccountRepository }
+export { UsersRepository }

@@ -3,13 +3,13 @@ import jwt from "jsonwebtoken"
 import { AppError } from "../../../../errors/AppError.js"
 
 class AuthenticateUseCase {
-  accountsRepository
-  constructor(accountsRepository) {
-    this.accountsRepository = accountsRepository
+  usersRepository
+  constructor(usersRepository) {
+    this.usersRepository = usersRepository
   }
 
   async execute({ email, password }) {
-    const accountExists = await this.accountsRepository.findByEmail(email)
+    const accountExists = await this.usersRepository.findByEmail(email)
 
     if (!accountExists) {
       throw new AppError("Invalid credentials!")

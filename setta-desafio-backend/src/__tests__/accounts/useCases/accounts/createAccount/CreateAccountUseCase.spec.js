@@ -1,15 +1,15 @@
 import { AppError } from "../../../../../errors/AppError.js"
-import { AccountRepository } from "../../../../../modules/accounts/repositories/AccountRepository.js"
+import { UsersRepository } from "../../../../../modules/accounts/repositories/UsersRepository.js"
 import { CreateAccountUseCase } from "../../../../../modules/accounts/useCases/createAccount/CreateAccountUseCase.js"
 import { prisma } from "../../../../../database/prisma/prisma.js"
 
-let accountRepository
+let UsersRepository
 let createAccountUseCase
 
 describe("CreateAccountUseCase", () => {
   beforeAll(() => {
-    accountRepository = new AccountRepository()
-    createAccountUseCase = new CreateAccountUseCase(accountRepository)
+    UsersRepository = new UsersRepository()
+    createAccountUseCase = new CreateAccountUseCase(UsersRepository)
   })
 
   afterAll(async () => {
@@ -29,7 +29,7 @@ describe("CreateAccountUseCase", () => {
   })
 
   it("should not be able to create a new account with already registered", async () => {
-    await accountRepository.create({
+    await UsersRepository.create({
       name: "John Doe",
       email: "johndoetwo@gmail.com",
       password: "123456",

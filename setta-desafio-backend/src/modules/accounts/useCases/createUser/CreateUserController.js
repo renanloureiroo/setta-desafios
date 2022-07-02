@@ -1,14 +1,14 @@
 class CreateAccountController {
-  createAccountUseCase
-  constructor(createAccountUseCase) {
-    this.createAccountUseCase = createAccountUseCase
+  createUserUseCase
+  constructor(createUserUseCase) {
+    this.createUserUseCase = createUserUseCase
   }
 
   async handle(req, res) {
     const { name, email, password } = req.body
 
     try {
-      const account = await this.createAccountUseCase.execute({
+      const account = await this.createUserUseCase.execute({
         name,
         email,
         password,

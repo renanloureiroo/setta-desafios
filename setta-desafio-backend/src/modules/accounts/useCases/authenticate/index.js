@@ -1,9 +1,9 @@
 import { AuthenticateUseCase } from "./AuthenticateUseCase.js"
 import { AuthenticateController } from "./AuthenticateController.js"
-import { AccountRepository } from "../../repositories/AccountRepository.js"
+import { UsersRepository } from "../../repositories/UsersRepository.js"
 
-const accountRepository = new AccountRepository()
-const authenticateUseCase = new AuthenticateUseCase(accountRepository)
+const usersRepository = new UsersRepository()
+const authenticateUseCase = new AuthenticateUseCase(usersRepository)
 const authenticateController = new AuthenticateController(authenticateUseCase)
 
 export { authenticateController }

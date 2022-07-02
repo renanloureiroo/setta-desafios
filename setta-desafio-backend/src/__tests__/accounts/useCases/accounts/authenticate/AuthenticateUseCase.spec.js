@@ -1,21 +1,21 @@
 import bcryptJs from "bcryptjs"
 import { AuthenticateUseCase } from "../../../../../modules/accounts/useCases/authenticate/AuthenticateUseCase.js"
 import { AppError } from "../../../../../errors/AppError.js"
-import { AccountRepository } from "../../../../../modules/accounts/repositories/AccountRepository.js"
+import { UsersRepository } from "../../../../../modules/accounts/repositories/UsersRepository.js"
 import { prisma } from "../../../../../database/prisma/prisma.js"
 
-let accountRepository
+let usersRepository
 let authenticateUseCase
 let account
 
 describe("AuthenticateUseCase", () => {
   beforeAll(async () => {
-    accountRepository = new AccountRepository()
-    authenticateUseCase = new AuthenticateUseCase(accountRepository)
+    usersRepository = new UsersRepository()
+    authenticateUseCase = new AuthenticateUseCase(usersRepository)
 
     const hashedPassword = await bcryptJs.hash("123456", 8)
 
-    account = await accountRepository.create({
+    account = await usersRepository.create({
       name: "John Doe",
       email: "johndoe@gmail.com",
       password: hashedPassword,

@@ -29,10 +29,10 @@ model Task {
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
-  BlocksTime BlocksTime[]
+  timeBlocks TimeBlock[]
 }
 
-model BlocksTime {
+model TimeBlock {
   id     Int    @id @default(autoincrement())
   type   String
   time   Int
