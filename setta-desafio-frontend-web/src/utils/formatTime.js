@@ -7,6 +7,8 @@ function formatTime(time) {
     return `00:0${seconds}`;
   } else if (minutes < 10 && seconds < 10) {
     return `0${minutes}:0${seconds}`;
+  } else if (minutes < 10) {
+    return `0${minutes}:${seconds}`;
   } else if (seconds < 10) {
     return `${minutes}:0${seconds}`;
   } else {
