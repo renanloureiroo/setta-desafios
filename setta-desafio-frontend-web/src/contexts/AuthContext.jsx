@@ -52,6 +52,14 @@ const AuthContextProvider = ({ children }) => {
     }
   }, []);
 
+  const signOut = useCallback(() => {
+    localStorage.removeItem("settaAccessToken");
+    localStorage.removeItem("settaUser");
+    setUser(null);
+
+    history.replaceState(null, null, "/signin");
+  });
+
   const rehydrated = () => {
     const accessToken = localStorage.getItem("settaAccessToken");
     const user = JSON.parse(localStorage.getItem("settaUser"));
@@ -73,7 +81,7 @@ const AuthContextProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signUp, isLoading }}>
+    <AuthContext.Provider value={{ user, signIn, signUp, signOut, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

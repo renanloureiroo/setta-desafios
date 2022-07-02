@@ -7,7 +7,7 @@ import { api } from "../services/api";
 
 import { formatTime } from "../utils/formatTime";
 
-export const Home = () => {
+export const Timer = () => {
   const [time, setTime] = useState(0);
 
   const [focusTime, setFocusTime] = useState(0);

@@ -3,15 +3,15 @@ function formatTime(time) {
 
   const seconds = time % 60;
 
-  return minutes === 0 && seconds < 10
-    ? `00:0${seconds}`
-    : seconds < 10
-    ? `${minutes}:0${seconds}`
-    : minutes === 0
-    ? `00:${seconds}`
-    : minutes < 10
-    ? `0${minutes}:${seconds}`
-    : `${minutes}:${seconds}`;
+  if (minutes === 0 && seconds < 10) {
+    return `00:0${seconds}`;
+  } else if (minutes < 10 && seconds < 10) {
+    return `0${minutes}:0${seconds}`;
+  } else if (seconds < 10) {
+    return `${minutes}:0${seconds}`;
+  } else {
+    return `00:${seconds}`;
+  }
 }
 
 export { formatTime };

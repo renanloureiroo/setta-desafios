@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import { SignIn } from "../pages/SignIn";
 import { SignUp } from "../pages/SignUp";
-import { Home } from "../pages/Home";
+import { Timer } from "../pages/Timer";
 import { RequireAuth } from "../components/RequiredAuth";
 import { Report } from "../pages/Report";
+import { Profile } from "../pages/Profile";
 
 export const AppRoutes = () => {
   return (
@@ -13,10 +14,11 @@ export const AppRoutes = () => {
         path="/"
         element={
           <RequireAuth>
-            <Home />
+            <Profile />
           </RequireAuth>
         }
       />
+      <Route path="/timer" element={<Timer />} />
       <Route
         path="/task/:id"
         element={
