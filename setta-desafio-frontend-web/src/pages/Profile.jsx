@@ -89,20 +89,20 @@ export const Profile = () => {
       <main className="flex flex-col mt-10">
         {!isLoading && !!metrics ? (
           <>
-            <section className="bg-white rounded-lg p-4 text-gray-900 flex flex-col lg:flex-row items-center lg:justify-center">
+            <section className="bg-white rounded-lg p-2 text-gray-900 flex flex-col lg:flex-row items-center lg:justify-center">
               <Chart
                 options={{
                   labels: ["Foco", "Pausa"],
                 }}
                 series={[metrics.averageFocusedTime, metrics.averagePausedTime]}
                 type="donut"
-                height={350}
-                width={350}
+                height={300}
+                width={300}
               />
 
-              <div className="flex flex-col space-y-4 text-gray-600 lg:text-lg">
+              <div className="flex flex-col space-y-4text-gray-600 lg:text-lg self-start">
                 <span>
-                  Média do primeiro bloco focado:{" "}
+                  Média 1º bloco:{" "}
                   <strong className="font-mono text-gray-900">
                     {metrics.averageFirstFocusTimeBlock}
                   </strong>
