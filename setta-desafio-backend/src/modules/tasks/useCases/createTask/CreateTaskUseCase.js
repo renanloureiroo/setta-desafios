@@ -1,12 +1,10 @@
-class SaveDataExecuteTaskUseCase {
+class CreateTaskUseCase {
   tasksRepository
   constructor(tasksRepository) {
     this.tasksRepository = tasksRepository
   }
 
   async execute({ name, focusedTime, pausedTime, blocks, userId }) {
-
-    
     const task = await this.tasksRepository.create({
       name,
       focusedTime,
@@ -19,4 +17,4 @@ class SaveDataExecuteTaskUseCase {
   }
 }
 
-export { SaveDataExecuteTaskUseCase }
+export { CreateTaskUseCase }

@@ -1,14 +1,14 @@
-class SaveDataExecuteTaskController {
-  saveDataExecuteTaskUseCase
-  constructor(saveDataExecuteTaskUseCase) {
-    this.saveDataExecuteTaskUseCase = saveDataExecuteTaskUseCase
+class CreateTaskController {
+  createTaskUseCase
+  constructor(createTaskUseCase) {
+    this.createTaskUseCase = createTaskUseCase
   }
 
   async handle(req, res) {
     const userId = req.user.id
     const { name, focusedTime, pausedTime, blocks } = req.body
     try {
-      const task = await this.saveDataExecuteTaskUseCase.execute({
+      const task = await this.createTaskUseCase.execute({
         name,
         focusedTime,
         pausedTime,
@@ -22,4 +22,4 @@ class SaveDataExecuteTaskController {
   }
 }
 
-export { SaveDataExecuteTaskController }
+export { CreateTaskController }
