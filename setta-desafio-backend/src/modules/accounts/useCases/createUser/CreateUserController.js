@@ -1,4 +1,4 @@
-class CreateAccountController {
+class CreateUserController {
   createUserUseCase
   constructor(createUserUseCase) {
     this.createUserUseCase = createUserUseCase
@@ -23,4 +23,4 @@ class CreateAccountController {
   }
 }
 
-export { CreateAccountController }
+export { CreateUserController }

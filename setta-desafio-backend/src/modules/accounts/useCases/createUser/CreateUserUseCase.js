@@ -1,7 +1,7 @@
 import bcryptJs from "bcryptjs"
 import { AppError } from "../../../../errors/AppError.js"
 
-class CreateAccountUseCase {
+class CreateUserUseCase {
   usersRepository
   constructor(usersRepository) {
     this.usersRepository = usersRepository
@@ -24,4 +24,4 @@ class CreateAccountUseCase {
   }
 }
 
-export { CreateAccountUseCase }
+export { CreateUserUseCase }
