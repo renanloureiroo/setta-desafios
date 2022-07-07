@@ -20,6 +20,8 @@ export const Timer = () => {
 
   const [timeFormatted, setTimeFormatted] = useState("");
 
+  const [name, setName] = useState("Tarefa");
+
   const [timeBlocks, setTimeBlocks] = useState([]);
   const navigate = useNavigate();
 
@@ -57,7 +59,7 @@ export const Timer = () => {
       );
 
       const { data } = await api.post("/tasks", {
-        name: "tarefa",
+        name,
         focusedTime: times.focusedTime,
         pausedTime: times.pausedTime,
         blocks: timeBlocks,
@@ -140,7 +142,15 @@ export const Timer = () => {
 
   return (
     <main className="w-full min-h-screen max-w-screen-lg px-8 flex flex-col items-center justify-center mx-auto">
-      <h1 className="text-3xl mb-48">Tarefa</h1>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        value={name}
+        placeholder="Name"
+        onChange={(e) => setName(e.target.value)}
+        className="text-2xl bg-transparent  text-center mb-24 outline-none border-b"
+      />
 
       <span className="text-white text-7xl tracking-tighter font-mono mb-48">
         {timeFormatted}
